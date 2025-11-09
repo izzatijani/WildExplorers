@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wild Explorers</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background-color: #0a0a0a; color: #fff; overflow-x: hidden; }
+
+    header {
+      background: rgba(0,0,0,0.7);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      padding: 15px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 { color: #00e0ff; font-size: 26px; letter-spacing: 2px; }
+    nav a { color: white; margin-left: 25px; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+    nav a:hover { color: #00e0ff; }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+      background: url('https://images7.alphacoders.com/108/1083761.jpg') top center/cover no-repeat fixed;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 100%);
+      z-index: 1;
+    }
+    .hero h2 { position: relative; z-index:2; font-size:48px; color:#fff; text-shadow:0 0 15px #00e0ff; animation: glow 2s infinite alternate; }
+    @keyframes glow { from { text-shadow:0 0 5px #00e0ff; } to { text-shadow:0 0 25px #00e0ff; } }
+    .hero p { position: relative; z-index:2; font-size:20px; margin-top:20px; max-width:600px; }
+    .btn { position: relative; z-index:2; margin-top:30px; padding:12px 30px; font-size:18px; background:#00e0ff; color:#000; border:none; border-radius:30px; cursor:pointer; font-weight:bold; transition: transform 0.3s; }
+    .btn:hover { transform: scale(1.1); background:#00bcd4; }
+
+    /* ABOUT */
+    #about {
+      position: relative;
+      color: white;
+      padding: 100px 60px;
+      background: url('https://images7.alphacoders.com/108/1083761.jpg') top center/cover no-repeat fixed;
+    }
+    #about::after {
+      content:'';
+      position:absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 100%);
+      z-index:1;
+    }
+    #about>.content { position:relative; z-index:2; max-width:1000px; margin:0 auto; display:flex; flex-wrap:wrap; justify-content:space-between; gap:40px; }
+    #about h2 { font-size:36px; color:#00e0ff; margin-bottom:20px; }
+    #about p { font-size:18px; line-height:1.6; }
+    .fun-facts { flex:1; min-width:250px; display:flex; flex-direction:column; gap:30px; }
+    .fun-facts div { display:flex; align-items:center; gap:15px; }
+    .fun-facts h3 { color:#00e0ff; font-size:28px; margin:0; }
+    .fun-facts p { margin:0; font-size:16px; }
+
+    /* ACTIVITIES */
+    section { padding:100px 60px; text-align:center; }
+    section h2 { color:#00e0ff; font-size:32px; margin-bottom:40px; }
+    .activities { display:flex; flex-wrap:wrap; justify-content:center; gap:40px; }
+
+    /* CARD FLIP */
+    .card { perspective:1000px; width:280px; height:380px; }
+    .card-inner { position: relative; width: 100%; height: 100%; text-align:center; transition: transform 0.6s; transform-style: preserve-3d; cursor:pointer; border-radius:15px; }
+    .card.flipped .card-inner { transform: rotateY(180deg); }
+    .card-front, .card-back { position:absolute; width:100%; height:100%; backface-visibility:hidden; border-radius:15px; overflow:hidden; background:#111; color:#fff; padding:15px; display:flex; flex-direction:column; justify-content:center; align-items:center; box-shadow:0 0 15px rgba(0,224,255,0.3); }
+    .card-front img { width:100%; border-radius:15px; margin-bottom:10px; }
+    .card-front h3 { color:#00e0ff; margin-bottom:5px; }
+    .card-front p { font-size:14px; }
+    .card-back { transform: rotateY(180deg); font-size:14px; line-height:1.4; }
+
+    /* VIDEO */
+    .video-section { padding:100px 20px; text-align:center; background:#111; }
+    video { max-width:100%; height:auto; border-radius:15px; margin-top:20px; }
+    .music-control { margin-top:15px; padding:10px 20px; border:none; border-radius:20px; background:#00e0ff; color:#000; cursor:pointer; font-weight:bold; }
+
+    /* CONTACT */
+    .contact { background:#000; padding:80px 60px; color:#ccc; }
+    footer { text-align:center; padding:20px; background:#111; color:#777; font-size:14px; }
+
+    @media (max-width:768px){
+      header { flex-direction:column; }
+      .activities { flex-direction:column; align-items:center; }
+      #about>.content { flex-direction:column; align-items:center; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Wild Explorers</h1>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About us</a>
+      <a href="#activities">Activities</a>
+      <a href="#video">Video</a>
+      <a href="#testimonials">Review</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <h2>Dare to Explore!</h2>
+    <p>Experience the thrill of nature, fun, and adventure at Wild Explorers — where young hearts meet wild excitement!</p>
+    <button class="btn" onclick="scrollToActivities()">Discover More</button>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="content">
+      <div>
+        <h2>About Us</h2>
+        <p>At <strong>Wild Explorers</strong>, adventure isn’t just an activity — it’s a lifestyle! We ignite the spirit of exploration among young thrill-seekers. From soaring through the skies to conquering wild rapids, we create safe, exciting, and sustainable outdoor experiences that blend courage, teamwork, and pure fun.</p>
+        <p style="margin-top:20px; font-style:italic;">“Where young hearts meet wild excitement!”</p>
+      </div>
+      <div class="fun-facts">
+        <div>
+          <img src="https://img.icons8.com/ios-filled/50/00e0ff/mountain.png"/>
+          <div><h3>50+</h3><p>Adventure Activities</p></div>
+        </div>
+        <div>
+          <img src="https://img.icons8.com/ios-filled/50/00e0ff/smiling.png"/>
+          <div><h3>10K+</h3><p>Happy Visitors</p></div>
+        </div>
+        <div>
+          <img src="https://img.icons8.com/ios-filled/50/00e0ff/shield.png"/>
+          <div><h3>100%</h3><p>Safety Guaranteed</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTIVITIES -->
+  <section id="activities">
+    <h2>Our Adventures</h2>
+    <div class="activities">
+      <!-- CARD TEMPLATE -->
+      <!-- 1. Zipline -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://storytellertech.com/wp-content/uploads/2020/03/gopro-zipline.jpg.webp" alt="Zipline">
+            <h3>Zipline</h3>
+            <p>Soar across the treetops and feel the rush of wind as you glide from platform to platform. Perfect for thrill-seekers!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong> Skytrex Adventure (Genting Highlands, Langkawi, or Shah Alam)<br>
+            <strong>Price:</strong>RM50 – RM150 per person<br>
+            <strong>Duration:</strong> 2 mins<br>
+            <strong>Note:</strong> Safety gear included</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Wakeboarding -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://tse1.mm.bing.net/th/id/OIP.ewHQjGtBiTrP0ENvcG3UVwHaEG?pid=Api&P=0&h=180" alt="Wakeboarding">
+            <h3>Wakeboarding</h3>
+            <p>Ride the waves while holding onto a rope, balancing on a board, and performing exciting tricks across the water!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong> Putrajaya Lake, Sunway Lagoon Cable Wake Park<br>
+            <strong>Price:</strong> RM70 – RM150 per session<br>
+            <strong>Duration:</strong> 30 mins<br>
+            <strong>Note:</strong> Beginners welcome</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. ATV (All-Terrain Vehicle) -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://cdn-static.tilabs.io/marketplace/atv/atv_core_homepage_og_images_v2.jpg" alt="ATV">
+            <h3>ATV</h3>
+            <p>Zoom through rugged trails, mud paths, and hills with an all-terrain vehicle—adventure at full throttle!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong> ATV Adventure Park (Langkawi), Bukit Gambang Resort, Genting Highlands<br>
+            <strong>Price:</strong> RM80 – RM200 per ride<br>
+            <strong>Duration:</strong> 45 mins<br>
+            <strong>Note:</strong> Safety gear included</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. River Rafting -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://www.discoverhoodriver.com/wp-content/uploads/2023/03/039-1-scaled.jpg" alt="River Rafting">
+            <h3>River Rafting</h3>
+            <p>Work as a team to navigate through rapids and splashing waters—an exhilarating experience for thrill lovers!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong>Sungai Selangor, Gopeng Whitewater Rafting (Perak), Sungai Padas (Sabah)<br>
+            <strong>Price:</strong> RM120 – RM250 per session<br>
+            <strong>Duration:</strong> 1 hr<br>
+            <strong>Note:</strong> Safety guide provided</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Scuba Diving -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://trendingsimple.com/wp-content/uploads/what-part-of-jamaica-has-the-best-scuba-diving.jpg" alt="Scuba diving">
+            <h3>Scuba Diving</h3>
+            <p>Explore the underwater world, swim alongside vibrant marine life, and discover hidden coral gardens!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong> Perhentian Islands, Tioman Island, Sipadan (Sabah)<br>
+            <strong>Price:</strong> RM200 – RM500 for beginners (PADI trial)<br>
+            <strong>Duration:</strong> 1 hr<br>
+            <strong>Note:</strong> Certified instructors</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Snorkeling -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://mindfulpathfinder.com/wp-content/uploads/2023/04/Best-Spots-for-Snorkeling-in-Bali.jpg" alt="Snorkeling">
+            <h3>Snorkeling</h3>
+            <p>Float on the water’s surface and observe colorful fish and coral reefs in shallow, crystal-clear waters!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong> Redang Island, Perhentian Islands, Tioman Island<br>
+            <strong>Price:</strong> RM50 – RM150 per session<br>
+            <strong>Duration:</strong> 40 mins<br>
+            <strong>Note:</strong> Family-friendly</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Water Abseiling -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1295,h_863/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/xxqqdfbjcmwjkznrbqkd/WaterfallAbseilingandCavingAdventuresinGopeng.jpg" alt="Water Abseiling">
+            <h3>Water Abseiling</h3>
+            <p>Descend waterfalls with ropes and safety gear, combining thrill with nature’s beauty!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong> Gopeng, Perak; Sungai Chiling Waterfall (Selangor)<br>
+            <strong>Price:</strong> RM80 – RM200 per session<br>
+            <strong>Duration:</strong> 30 mins<br>
+            <strong>Note:</strong> Training provided</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. Parasailing -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://www.boatsparasailing.com/wp-content/uploads/2018/03/parasailing-36-4.jpg" alt="Parasailing">
+            <h3>Parasailing</h3>
+            <p>Soar above the water while safely harnessed to a parachute—enjoy breathtaking aerial views!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong> Langkawi, Tanjung Rhu Beach, Port Dickson<br>
+            <strong>Price:</strong>RM100 – RM250 per flight<br>
+            <strong>Duration:</strong> 20 mins<br>
+            <strong>Note:</strong> Stunning aerial views</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. Rock Climbing -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://www.climbfit.com.au/wp-content/uploads/2020/10/climb-fit-kirrawee-kids-indoor-rock-climbing-10.jpg" alt="Rock climbing">
+            <h3>Rock Climbing</h3>
+            <p>Scale indoor or outdoor walls using ropes and harnesses; a challenge for all skill levels!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong> Batu Caves (Selangor), Camp 5 Rock Climbing (Kuala Lumpur), Gua Damai (Kuala Lumpur) Center<br>
+            <strong>Price:</strong> RM50 – RM150 per session<br>
+            <strong>Duration:</strong> 1 hr<br>
+            <strong>Note:</strong> All skill levels welcome</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. Cave Exploring -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://assets.atdw-online.com.au/images/c91e5862d9af9aebab1d4653274dd13e.jpeg?rect=0" alt="Cave exploring">
+            <h3>Cave Exploring</h3>
+            <p>Discover hidden caves, navigate tunnels, and experience the thrill of underground adventure!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong>Gua Tempurung (Perak), Mulu Caves (Sarawak), Gua Niah (Sarawak)<br>
+            <strong>Price:</strong> RM20 – RM100 per guided tour<br>
+            <strong>Duration:</strong> 2 hrs<br>
+            <strong>Note:</strong> Helmets & lights provided</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11. Hiking -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://www.si.com/.image/t_share/MTkyMDA5NjIxNzE5MjI5ODk1/best-hiking-shoes_lead.png" alt="Hiking">
+            <h3>Hiking</h3>
+            <p>Trek through scenic trails, forests, and mountains while enjoying nature and staying active!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong> Mount Kinabalu (Sabah), Broga Hill (Selangor), Gunung Ledang (Johor)<br>
+            <strong>Price:</strong> RM0 – RM100 (some trails have guides or park fees)<br>
+            <strong>Duration:</strong> 3 hrs<br>
+            <strong>Note:</strong> Bring your own water</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12. Paragliding -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://skywings.ch/wp-content/uploads/2023/07/skywings-paragliding-3-to-4-077-1024x768.jpg" alt="Paragliding">
+            <h3>Paragliding</h3>
+            <p>Glide through the skies with a parachute, riding wind currents for an unforgettable experience!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong> Bukit Jugra (Selangor), Bukit Tinggi (Pahang), Pantai Cenang (Langkawi)<br>
+            <strong>Price:</strong> RM150 – RM350 per flight<br>
+            <strong>Duration:</strong> 15 mins<br>
+            <strong>Note:</strong> Thrill-seeker favorite</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13. Bungee Jump -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://checkyeti.imgix.net/images/prod/products/12261/bungy-stockhorn_002_web-min1.jpg" alt="Bungee Jump">
+            <h3>Bungee Jump</h3>
+            <p>Leap off a platform with a cord attached, feeling a thrilling free-fall and adrenaline rush!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong> Sunway Lagoon (Selangor), Kuala Kubu Bharu (Selangor), SkyTrex Extreme (Langkawi – some sites)<br>
+            <strong>Price:</strong> RM150 – RM300 per jump<br>
+            <strong>Duration:</strong> 5 mins<br>
+            <strong>Note:</strong> Safety harness included</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14. Sky Diving (Simulator) -->
+      <div class="card" onclick="this.classList.toggle('flipped')">
+        <div class="card-inner">
+          <div class="card-front">
+            <img src="https://wisconsinskydivingcenter.com/wp-content/uploads/2022/06/Woman-jumping-out-of-a-plane-for-her-first-tandem-skydive-at-Wisconsin-Skydiving-Center.jpg" alt="Sky Diving">
+            <h3>Sky Diving</h3>
+            <p>Jump from a plane and experience the ultimate adrenaline rush while free-falling before gliding safely down.!</p>
+          </div>
+          <div class="card-back">
+            <p><strong>Location:</strong>Langkawi International Skydiving Centre, Batu Pahat (Johor – drop zones)<br>
+            <strong>Price:</strong>RM800 – RM2,000 per tandem jump<br>
+            <strong>Duration:</strong> 10 mins<br>
+            <strong>Note:</strong> Indoor simulator</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="video-section" id="video">
+    <h2>Adventure in Motion</h2>
+    <video width="800" height="450" controls autoplay loop muted>
+      <source src="tmgt 2315/videoplayback.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <audio id="bgMusic" loop>
+      <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_94f27f5cf7.mp3" type="audio/mpeg">
+    </audio>
+    <button class="music-control" onclick="toggleMusic()">Play Music</button>
+  </section>
+
+<!-- REVIEW -->
+<section id="testimonials" style="background: linear-gradient(to bottom, #010101, #010101); padding: 60px 20px; text-align: center;">
+  <h2 style="font-size: 2.5em; color: #00e0ff; margin-bottom: 40px;">What Our Visitors Say 🌟</h2>
+
+  <div class="testimonial-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; max-width: 1200px; margin: 0 auto;">
+
+    <div class="testimonial-card">
+      <img src="https://i.pravatar.cc/120?img=1" alt="Visitor 1">
+      <p>"An unforgettable experience! The snorkeling activity was breathtaking — I’ll definitely come again!"</p>
+      <h4>- Aisyah Rahman</h4>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="https://i.pravatar.cc/120?img=2" alt="Visitor 2">
+      <p>"Loved the professionalism of the guides. The hiking trail was safe and full of beautiful scenery!"</p>
+      <h4>- Daniel Wong</h4>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="https://i.pravatar.cc/120?img=3" alt="Visitor 3">
+      <p>"Parasailing was the highlight of my trip! So thrilling yet peaceful up in the sky."</p>
+      <h4>- Nurul Ain</h4>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="https://i.pravatar.cc/120?img=4" alt="Visitor 4">
+      <p>"Perfect for families! My kids enjoyed the cave exploring adventure — educational and fun."</p>
+      <h4>- Ahmad Faiz</h4>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="https://i.pravatar.cc/120?img=5" alt="Visitor 5">
+      <p>"Highly recommended! The rock climbing challenge was intense but rewarding. Amazing instructors!"</p>
+      <h4>- Mei Ling</h4>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="https://i.pravatar.cc/120?img=6" alt="Visitor 6">
+      <p>"Scuba diving here was magical — clear water, colorful corals, and friendly staff."</p>
+      <h4>- Jonathan Lee</h4>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="https://i.pravatar.cc/120?img=7" alt="Visitor 7">
+      <p>"The best adventure destination I’ve ever visited in Malaysia. Great value and memorable moments!"</p>
+      <h4>- Siti Hajar</h4>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .testimonial-card {
+    background: #b8e2f4;
+    border-radius: 20px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    padding: 25px;
+    width: 300px;
+    transition: 0.4s ease;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0, 150, 136, 0.3);
+  }
+
+  .testimonial-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+  }
+
+  .testimonial-card p {
+    font-style: italic;
+    color: #010101;
+    margin-bottom: 10px;
+  }
+
+  .testimonial-card h4 {
+    color: #00796b;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .testimonial-card {
+      width: 90%;
+    }
+  }
+</style>
+
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <h2>Contact Us</h2>
+    <div class="contact-info">
+      <div class="contact-card">
+        <img src="https://img.icons8.com/ios-filled/50/00e0ff/email-open.png" alt="Email">
+        <h3>Email</h3>
+        <p>info@WildExplorers.com</p>
+      </div>
+      <div class="contact-card">
+        <img src="https://img.icons8.com/ios-filled/50/00e0ff/phone.png" alt="Phone">
+        <h3>Phone</h3>
+        <p>+603-956 4007</p>
+      </div>
+      <div class="contact-card">
+        <img src="https://img.icons8.com/ios-filled/50/00e0ff/instagram-new.png" alt="Instagram">
+        <h3>Follow Us</h3>
+        <p>@WildExplorers</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Wild Explorers | Designed for young explorers 🌍
+  </footer>
+
+  <script>
+    function scrollToActivities() {
+      document.getElementById('activities').scrollIntoView({behavior:'smooth'});
+    }
+    function toggleMusic() {
+      const music = document.getElementById('bgMusic');
+      if(music.paused){ music.play(); } else { music.pause(); }
+    }
+  </script>
+</body>
+</html>  
